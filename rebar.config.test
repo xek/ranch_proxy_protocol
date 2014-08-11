@@ -2,5 +2,6 @@
 {lib_dirs, ["deps"]}.
 {erl_opts, [debug_info]}.
 {xref_checks, [undefined_function_calls]}.
-{deps, [{ranch, ".*", {git, "https://github.com/extend/ranch.git", {tag, "0.8.5"}}}
-       ]}.
+{deps,
+ [{ranch, ".*", {git, "https://github.com/extend/ranch.git", {tag, "0.10.0"}}}
+ ]}.

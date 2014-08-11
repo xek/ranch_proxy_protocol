@@ -15,6 +15,7 @@
 -export([match_port/1]).
 -export([listen/1]).
 -export([accept/2]).
+-export([accept_ack/2]).
 -export([connect/3]).
 -export([connect/4]).
 -export([recv/3]).
@@ -27,6 +28,7 @@
 -export([peername/1]).
 -export([proxyname/1]).
 -export([sockname/1]).
+-export([shutdown/2]).
 -export([close/1]).
 
 -export([opts_from_socket/2]).
@@ -99,6 +101,10 @@ accept(#proxy_socket{lsocket = LSocket,
         {error, Error} ->
             {error, Error}
     end.
+
+-spec accept_ack(inet:socket(), timeout()) -> ok.
+accept_ack(_, _) ->
+    ok.
 
 -spec connect(inet:ip_address() | inet:hostname(),
               inet:port_number(), any())
@@ -184,6 +190,11 @@ proxyname(#proxy_socket{source_address = SourceAddress,
               -> {ok, {inet:ip_address(), inet:port_number()}} | {error, atom()}.
 sockname(#proxy_socket{lsocket = Socket}) ->
     ranch_tcp:sockname(Socket).
+
+-spec shutdown(inet:socket(), read | write | read_write)
+	      -> ok | {error, atom()}.
+shutdown(Socket, How) ->
+    ranch_tcp:shutdown(Socket, How).
 
 -spec close(proxy_socket()) -> ok.
 close(#proxy_socket{csocket=Socket}) ->
